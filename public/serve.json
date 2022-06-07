@@ -1,0 +1,10 @@
+{
+  "headers": [{
+    "source" : "**/*.@(js|json|css|ttf|woff|eot|woff2|svg|png)",
+    "headers" : [{
+      "key" : "Access-Control-Allow-Origin",
+      "value" : "*"
+    }]
+  }
+  ]
+}
