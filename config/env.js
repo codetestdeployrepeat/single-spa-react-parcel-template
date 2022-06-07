@@ -60,7 +60,11 @@ process.env.NODE_PATH = (process.env.NODE_PATH || '')
 // injected into the application via DefinePlugin in webpack configuration.
 const REACT_APP = /^REACT_APP_/i;
 
+const DEFAULT_API_URL = '/api';
+
 function getClientEnvironment(publicUrl) {
+  const apiUrl = process.env.API_URL ? process.env.API_URL : DEFAULT_API_URL;
+
   const raw = Object.keys(process.env)
     .filter(key => REACT_APP.test(key))
     .reduce(
@@ -77,6 +81,7 @@ function getClientEnvironment(publicUrl) {
         // This should only be used as an escape hatch. Normally you would put
         // images into the `src` and `import` them in code to get their paths.
         PUBLIC_URL: publicUrl,
+        API_URL: apiUrl,
         // We support configuring the sockjs pathname during development.
         // These settings let a developer run multiple simultaneous projects.
         // They are used as the connection `hostname`, `pathname` and `port`
@@ -86,6 +91,8 @@ function getClientEnvironment(publicUrl) {
         WDS_SOCKET_PATH: process.env.WDS_SOCKET_PATH,
         WDS_SOCKET_PORT: process.env.WDS_SOCKET_PORT,
         // Whether or not react-refresh is enabled.
+        // react-refresh is not 100% stable at this time,
+        // which is why it's disabled by default.
         // It is defined here so it is available in the webpackHotDevClient.
         FAST_REFRESH: process.env.FAST_REFRESH !== 'false',
       }

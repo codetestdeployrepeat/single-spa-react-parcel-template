@@ -9,6 +9,9 @@ const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath');
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
+const DEFAULT_PUBLIC_URL = '/assets/admin';
+const envPublicUrl = process.env.PUBLIC_URL;
+
 // We use `PUBLIC_URL` environment variable or "homepage" field to infer
 // "public path" at which the app is served.
 // webpack needs to know it to put the right <script> hrefs into HTML even in
@@ -16,12 +19,12 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 // We can't use a relative path in HTML because we don't want to load something
 // like /todos/42/static/js/bundle.7289d.js. We have to know the root.
 const publicUrlOrPath = getPublicUrlOrPath(
-  process.env.NODE_ENV === 'development',
+  false,
   require(resolveApp('package.json')).homepage,
-  process.env.PUBLIC_URL
+  (envPublicUrl ? envPublicUrl : DEFAULT_PUBLIC_URL)
 );
 
-const buildPath = process.env.BUILD_PATH || 'build';
+const buildPath = process.env.BUILD_PATH || 'build/assets/admin';
 
 const moduleFileExtensions = [
   'web.mjs',
@@ -57,7 +60,7 @@ module.exports = {
   appBuild: resolveApp(buildPath),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveModule(resolveApp, 'src/index'),
+  appIndexJs: resolveModule(resolveApp, 'src/lifecycle'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   appTsConfig: resolveApp('tsconfig.json'),
@@ -66,8 +69,6 @@ module.exports = {
   testsSetup: resolveModule(resolveApp, 'src/setupTests'),
   proxySetup: resolveApp('src/setupProxy.js'),
   appNodeModules: resolveApp('node_modules'),
-  appWebpackCache: resolveApp('node_modules/.cache'),
-  appTsBuildInfoFile: resolveApp('node_modules/.cache/tsconfig.tsbuildinfo'),
   swSrc: resolveModule(resolveApp, 'src/service-worker'),
   publicUrlOrPath,
 };

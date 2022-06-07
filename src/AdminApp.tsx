@@ -4,12 +4,12 @@ type Props = {
   children?: any
 };
 
-const App = (props: Props) => {
+const AdminApp = (props: Props) => {
   return (
     <div>
-      <h1>It works!</h1>
+      <h1>Admin App</h1>
     </div>
   );
 };
 
-export default App;
+export default AdminApp;
